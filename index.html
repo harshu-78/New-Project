@@ -22,6 +22,21 @@
         .sidebar-transition {
             transition: transform 0.3s ease-in-out;
         }
+
+        /* Custom Scrollbar for Sidebar */
+        .sidebar-scroll::-webkit-scrollbar {
+            width: 5px;
+        }
+        .sidebar-scroll::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.1);
+        }
+        .sidebar-scroll::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+        }
+        .sidebar-scroll::-webkit-scrollbar-thumb:hover {
+            background: rgba(255,255,255,0.4);
+        }
     </style>
 </head>
 <body class="font-sans antialiased text-gray-900 bg-gray-100">
@@ -30,9 +45,9 @@
 
         <div id="mobile-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black bg-opacity-50 z-20 hidden md:hidden"></div>
 
-        <aside id="sidebar" class="sidebar-bg text-white w-64 flex-col fixed inset-y-0 left-0 z-30 transform -translate-x-full md:relative md:translate-x-0 sidebar-transition flex h-full">
+        <aside id="sidebar" class="sidebar-bg text-white w-64 flex-col fixed inset-y-0 left-0 z-30 transform -translate-x-full md:relative md:translate-x-0 sidebar-transition flex h-full shadow-2xl">
             
-            <div class="h-20 flex items-center justify-between px-6 border-b border-teal-700 bg-black/20">
+            <div class="h-20 flex items-center justify-between px-6 border-b border-teal-700 bg-black/20 shrink-0">
                 <div class="text-center w-full">
                     <h1 class="text-xl font-bold tracking-wider text-[#d4af37]">SYBARITE SOCIETY</h1>
                     <p class="text-xs text-gray-300 tracking-[0.2em]">AUCTIONS</p>
@@ -42,18 +57,84 @@
                 </button>
             </div>
 
-            <nav class="flex-1 overflow-y-auto py-4">
+            <nav class="flex-1 overflow-y-auto py-4 sidebar-scroll">
                 <ul class="space-y-1">
+                    
                     <li>
                         <a href="index.html" class="flex items-center px-6 py-3 text-[#d4af37] border-l-4 border-[#d4af37] bg-black/10">
                             <i class="fas fa-th-large w-6"></i>
                             <span class="font-medium">Dashboard</span>
                         </a>
                     </li>
+
+                    <li class="px-6 pt-4 pb-2 text-xs font-bold text-teal-200 uppercase tracking-wider opacity-70">
+                        Management
+                    </li>
+
+                    <li>
+                        <a href="#" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 hover:text-white transition group">
+                            <i class="fas fa-shopping-cart w-6 group-hover:text-red-300 transition"></i>
+                            <span>Orders</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 hover:text-white transition group">
+                            <i class="fas fa-box-open w-6 group-hover:text-blue-300 transition"></i>
+                            <span>Products</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 hover:text-white transition group">
+                            <i class="fas fa-layer-group w-6 group-hover:text-teal-300 transition"></i>
+                            <span>Sliders</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 hover:text-white transition group">
+                            <i class="fas fa-list-ul w-6 group-hover:text-indigo-300 transition"></i>
+                            <span>Categories</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 hover:text-white transition group">
+                            <i class="fas fa-clipboard-list w-6 group-hover:text-orange-300 transition"></i>
+                            <span>Testimonials</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 hover:text-white transition group">
+                            <i class="fas fa-address-book w-6 group-hover:text-red-300 transition"></i>
+                            <span>Enquiries</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 hover:text-white transition group">
+                            <i class="fas fa-images w-6 group-hover:text-green-300 transition"></i>
+                            <span>Gallery</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 hover:text-white transition group">
+                            <i class="fas fa-blog w-6 group-hover:text-yellow-300 transition"></i>
+                            <span>Blogs</span>
+                        </a>
+                    </li>
+
+                    <li class="px-6 pt-4 pb-2 text-xs font-bold text-teal-200 uppercase tracking-wider opacity-70">
+                        Auction Controls
+                    </li>
+
                     <li>
                         <a href="CreateAuctionItems.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 hover:text-white transition">
                             <i class="fas fa-gavel w-6"></i>
-                            <span>Create Auction Item</span>
+                            <span>Create Item</span>
                         </a>
                     </li>
                     <li>
@@ -65,13 +146,13 @@
                     <li>
                         <a href="ManagePaymentsDisputes.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 hover:text-white transition">
                             <i class="fas fa-credit-card w-6"></i>
-                            <span>Payments & Disputes</span>
+                            <span>Payments</span>
                         </a>
                     </li>
                     <li>
                         <a href="CompleteAuctionResults.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 hover:text-white transition">
                             <i class="fas fa-trophy w-6"></i>
-                            <span>Auction Results</span>
+                            <span>Results</span>
                         </a>
                     </li>
                     <li>
@@ -237,7 +318,7 @@
                             <button class="bg-yellow-100 hover:bg-yellow-200 text-yellow-600 px-4 py-1 rounded-full text-xs font-bold shadow-sm transition">view</button>
                         </div>
                     </div>
-
+                    
                     <div class="card-gradient rounded-xl p-5 shadow-lg relative overflow-hidden group hover:scale-[1.02] transition-transform duration-300">
                         <div class="flex justify-between items-start">
                             <div class="bg-white p-3 rounded-full h-14 w-14 flex items-center justify-center shadow-sm text-blue-500">
