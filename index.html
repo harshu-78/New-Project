@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sybarite Society Admin Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Custom Colors */
+        .sidebar-bg { background-color: #005f56; } /* deep teal */
+        .header-bg { background-color: #1a1a1a; } /* dark header */
+        .main-bg { background-color: #2d2d2d; } /* dark background */
+        
+        /* Card Gradient */
+        .card-gradient {
+            background: linear-gradient(180deg, #e0f2f1 0%, #ffcc80 100%);
+        }
+        
+        /* Smooth transition for sidebar */
+        .sidebar-transition {
+            transition: transform 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased text-gray-900 bg-gray-100">
+
+    <div class="flex h-screen overflow-hidden relative">
+
+        <div id="mobile-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black bg-opacity-50 z-20 hidden md:hidden"></div>
+
+        <aside id="sidebar" class="sidebar-bg text-white w-64 flex-col fixed inset-y-0 left-0 z-30 transform -translate-x-full md:relative md:translate-x-0 sidebar-transition flex h-full">
+            
+            <div class="h-20 flex items-center justify-between px-6 border-b border-teal-700 bg-black/20">
+                <div class="text-center w-full">
+                    <h1 class="text-xl font-bold tracking-wider text-[#d4af37]">SYBARITE SOCIETY</h1>
+                    <p class="text-xs text-gray-300 tracking-[0.2em]">AUCTIONS</p>
+                </div>
+                <button onclick="toggleSidebar()" class="md:hidden text-white focus:outline-none ml-2">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <nav class="flex-1 overflow-y-auto py-4">
+                <ul class="space-y-1">
+                    <li>
+                        <a href="index.html" class="flex items-center px-6 py-3 text-[#d4af37] border-l-4 border-[#d4af37] bg-black/10">
+                            <i class="fas fa-th-large w-6"></i>
+                            <span class="font-medium">Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="CreateAuctionItems.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 hover:text-white transition">
+                            <i class="fas fa-gavel w-6"></i>
+                            <span>Create Auction Item</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="ApproveStreamerAccounts.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 hover:text-white transition">
+                            <i class="fas fa-user-check w-6"></i>
+                            <span>Approve Streamers</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="ManagePaymentsDisputes.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 hover:text-white transition">
+                            <i class="fas fa-credit-card w-6"></i>
+                            <span>Payments & Disputes</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="CompleteAuctionResults.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 hover:text-white transition">
+                            <i class="fas fa-trophy w-6"></i>
+                            <span>Auction Results</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="ManageTimeFrame.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 hover:text-white transition">
+                            <i class="fas fa-clock w-6"></i>
+                            <span>Live Stream Time</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <div class="flex-1 flex flex-col h-screen overflow-hidden main-bg relative w-full">
+            
+            <div class="absolute inset-0 z-0 opacity-10 pointer-events-none" style="background-image: url('https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?q=80&w=2574&auto=format&fit=crop'); background-size: cover; background-position: center;"></div>
+
+            <header class="header-bg text-white h-16 flex items-center justify-between px-4 md:px-6 shadow-md z-10 relative shrink-0">
+                <div class="flex items-center">
+                    <button onclick="toggleSidebar()" class="md:hidden text-gray-300 hover:text-white mr-4 focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                    <h2 class="text-sm md:text-lg font-semibold truncate">Good Afternoon, Admin</h2>
+                </div>
+                
+                <div class="flex items-center space-x-3 md:space-x-6">
+                    <button class="hover:text-yellow-400 transition hidden md:block"><i class="fas fa-expand"></i></button>
+                    <button class="hover:text-yellow-400 transition hidden md:block"><i class="fas fa-sun"></i></button>
+                    <div class="flex items-center space-x-2 cursor-pointer">
+                        <img src="https://i.pravatar.cc/150?img=3" alt="Admin" class="h-8 w-8 rounded-full border-2 border-gray-500">
+                        <span class="text-sm font-medium hidden sm:inline">Admin <i class="fas fa-chevron-down text-xs ml-1"></i></span>
+                    </div>
+                </div>
+            </header>
+
+            <main class="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-6 z-10 relative">
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+
+                    <div class="card-gradient rounded-xl p-5 shadow-lg relative overflow-hidden group hover:scale-[1.02] transition-transform duration-300">
+                        <div class="flex justify-between items-start">
+                            <div class="bg-white p-3 rounded-full h-14 w-14 flex items-center justify-center shadow-sm text-red-500">
+                                <i class="fas fa-shopping-cart text-2xl"></i>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-gray-600 font-semibold text-sm uppercase">Orders Count</p>
+                                <h3 class="text-3xl font-bold text-gray-800 mt-1">8</h3>
+                            </div>
+                        </div>
+                        <div class="mt-6 flex justify-between items-center">
+                            <span class="text-gray-700 text-sm font-medium">View Orders</span>
+                            <button class="bg-red-100 hover:bg-red-200 text-red-600 px-4 py-1 rounded-full text-xs font-bold shadow-sm transition">view</button>
+                        </div>
+                    </div>
+
+                    <div class="card-gradient rounded-xl p-5 shadow-lg relative overflow-hidden group hover:scale-[1.02] transition-transform duration-300">
+                        <div class="flex justify-between items-start">
+                            <div class="bg-white p-3 rounded-full h-14 w-14 flex items-center justify-center shadow-sm text-blue-500">
+                                <i class="fas fa-box-open text-2xl"></i>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-gray-600 font-semibold text-sm uppercase">Product Count</p>
+                                <h3 class="text-3xl font-bold text-gray-800 mt-1">8</h3>
+                            </div>
+                        </div>
+                        <div class="mt-6 flex justify-between items-center">
+                            <span class="text-gray-700 text-sm font-medium">View Products</span>
+                            <button class="bg-blue-100 hover:bg-blue-200 text-blue-600 px-4 py-1 rounded-full text-xs font-bold shadow-sm transition">view</button>
+                        </div>
+                    </div>
+
+                    <div class="card-gradient rounded-xl p-5 shadow-lg relative overflow-hidden group hover:scale-[1.02] transition-transform duration-300">
+                        <div class="flex justify-between items-start">
+                            <div class="bg-white p-3 rounded-full h-14 w-14 flex items-center justify-center shadow-sm text-teal-600">
+                                <i class="fas fa-layer-group text-2xl"></i>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-gray-600 font-semibold text-sm uppercase">Slider Count</p>
+                                <h3 class="text-3xl font-bold text-gray-800 mt-1">3</h3>
+                            </div>
+                        </div>
+                        <div class="mt-6 flex justify-between items-center">
+                            <span class="text-gray-700 text-sm font-medium">View Slider</span>
+                            <button class="bg-teal-100 hover:bg-teal-200 text-teal-600 px-4 py-1 rounded-full text-xs font-bold shadow-sm transition">view</button>
+                        </div>
+                    </div>
+
+                    <div class="card-gradient rounded-xl p-5 shadow-lg relative overflow-hidden group hover:scale-[1.02] transition-transform duration-300">
+                        <div class="flex justify-between items-start">
+                            <div class="bg-white p-3 rounded-full h-14 w-14 flex items-center justify-center shadow-sm text-indigo-500">
+                                <i class="fas fa-list-ul text-2xl"></i>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-gray-600 font-semibold text-sm uppercase">Categories Count</p>
+                                <h3 class="text-3xl font-bold text-gray-800 mt-1">8</h3>
+                            </div>
+                        </div>
+                        <div class="mt-6 flex justify-between items-center">
+                            <span class="text-gray-700 text-sm font-medium">View Categories</span>
+                            <button class="bg-indigo-100 hover:bg-indigo-200 text-indigo-600 px-4 py-1 rounded-full text-xs font-bold shadow-sm transition">view</button>
+                        </div>
+                    </div>
+
+                    <div class="card-gradient rounded-xl p-5 shadow-lg relative overflow-hidden group hover:scale-[1.02] transition-transform duration-300">
+                        <div class="flex justify-between items-start">
+                            <div class="bg-white p-3 rounded-full h-14 w-14 flex items-center justify-center shadow-sm text-orange-500">
+                                <i class="fas fa-clipboard-list text-2xl"></i>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-gray-600 font-semibold text-sm uppercase">Testimonial Count</p>
+                                <h3 class="text-3xl font-bold text-gray-800 mt-1">4</h3>
+                            </div>
+                        </div>
+                        <div class="mt-6 flex justify-between items-center">
+                            <span class="text-gray-700 text-sm font-medium">View Testimonial</span>
+                            <button class="bg-orange-100 hover:bg-orange-200 text-orange-600 px-4 py-1 rounded-full text-xs font-bold shadow-sm transition">view</button>
+                        </div>
+                    </div>
+
+                    <div class="card-gradient rounded-xl p-5 shadow-lg relative overflow-hidden group hover:scale-[1.02] transition-transform duration-300">
+                        <div class="flex justify-between items-start">
+                            <div class="bg-white p-3 rounded-full h-14 w-14 flex items-center justify-center shadow-sm text-red-400">
+                                <i class="fas fa-address-book text-2xl"></i>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-gray-600 font-semibold text-sm uppercase">Contact Enquiry</p>
+                                <h3 class="text-3xl font-bold text-gray-800 mt-1">2</h3>
+                            </div>
+                        </div>
+                        <div class="mt-6 flex justify-between items-center">
+                            <span class="text-gray-700 text-sm font-medium">View Enquiry</span>
+                            <button class="bg-red-100 hover:bg-red-200 text-red-600 px-4 py-1 rounded-full text-xs font-bold shadow-sm transition">view</button>
+                        </div>
+                    </div>
+
+                    <div class="card-gradient rounded-xl p-5 shadow-lg relative overflow-hidden group hover:scale-[1.02] transition-transform duration-300">
+                        <div class="flex justify-between items-start">
+                            <div class="bg-white p-3 rounded-full h-14 w-14 flex items-center justify-center shadow-sm text-green-500">
+                                <i class="fas fa-images text-2xl"></i>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-gray-600 font-semibold text-sm uppercase">Gallery Image</p>
+                                <h3 class="text-3xl font-bold text-gray-800 mt-1">8</h3>
+                            </div>
+                        </div>
+                        <div class="mt-6 flex justify-between items-center">
+                            <span class="text-gray-700 text-sm font-medium">View Gallery</span>
+                            <button class="bg-green-100 hover:bg-green-200 text-green-600 px-4 py-1 rounded-full text-xs font-bold shadow-sm transition">view</button>
+                        </div>
+                    </div>
+
+                    <div class="card-gradient rounded-xl p-5 shadow-lg relative overflow-hidden group hover:scale-[1.02] transition-transform duration-300">
+                        <div class="flex justify-between items-start">
+                            <div class="bg-white p-3 rounded-full h-14 w-14 flex items-center justify-center shadow-sm text-yellow-500">
+                                <i class="fas fa-blog text-2xl"></i>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-gray-600 font-semibold text-sm uppercase">Blogs Count</p>
+                                <h3 class="text-3xl font-bold text-gray-800 mt-1">3</h3>
+                            </div>
+                        </div>
+                        <div class="mt-6 flex justify-between items-center">
+                            <span class="text-gray-700 text-sm font-medium">View Blogs</span>
+                            <button class="bg-yellow-100 hover:bg-yellow-200 text-yellow-600 px-4 py-1 rounded-full text-xs font-bold shadow-sm transition">view</button>
+                        </div>
+                    </div>
+
+                    <div class="card-gradient rounded-xl p-5 shadow-lg relative overflow-hidden group hover:scale-[1.02] transition-transform duration-300">
+                        <div class="flex justify-between items-start">
+                            <div class="bg-white p-3 rounded-full h-14 w-14 flex items-center justify-center shadow-sm text-blue-500">
+                                <i class="fas fa-gavel text-2xl"></i>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-gray-600 font-semibold text-sm uppercase">Auction Items</p>
+                                <h3 class="text-3xl font-bold text-gray-800 mt-1">12</h3>
+                            </div>
+                        </div>
+                        <div class="mt-6 flex justify-between items-center">
+                            <span class="text-gray-700 text-sm font-medium">Create New</span>
+                            <button class="bg-blue-100 hover:bg-blue-200 text-blue-600 px-4 py-1 rounded-full text-xs font-bold shadow-sm transition">Create</button>
+                        </div>
+                    </div>
+
+                    <div class="card-gradient rounded-xl p-5 shadow-lg relative overflow-hidden group hover:scale-[1.02] transition-transform duration-300">
+                        <div class="flex justify-between items-start">
+                            <div class="bg-white p-3 rounded-full h-14 w-14 flex items-center justify-center shadow-sm text-green-500">
+                                <i class="fas fa-video text-2xl"></i>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-gray-600 font-semibold text-sm uppercase">Streamer Requests</p>
+                                <h3 class="text-3xl font-bold text-gray-800 mt-1">5</h3>
+                            </div>
+                        </div>
+                        <div class="mt-6 flex justify-between items-center">
+                            <span class="text-gray-700 text-sm font-medium">Pending Approval</span>
+                            <button class="bg-green-100 hover:bg-green-200 text-green-600 px-4 py-1 rounded-full text-xs font-bold shadow-sm transition">Approve</button>
+                        </div>
+                    </div>
+
+                    <div class="card-gradient rounded-xl p-5 shadow-lg relative overflow-hidden group hover:scale-[1.02] transition-transform duration-300">
+                        <div class="flex justify-between items-start">
+                            <div class="bg-white p-3 rounded-full h-14 w-14 flex items-center justify-center shadow-sm text-red-500">
+                                <i class="fas fa-hand-holding-dollar text-2xl"></i>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-gray-600 font-semibold text-sm uppercase">Payments & Disputes</p>
+                                <h3 class="text-3xl font-bold text-gray-800 mt-1">3</h3>
+                            </div>
+                        </div>
+                        <div class="mt-6 flex justify-between items-center">
+                            <span class="text-gray-700 text-sm font-medium">Action Required</span>
+                            <button class="bg-red-100 hover:bg-red-200 text-red-600 px-4 py-1 rounded-full text-xs font-bold shadow-sm transition">Manage</button>
+                        </div>
+                    </div>
+
+                    <div class="card-gradient rounded-xl p-5 shadow-lg relative overflow-hidden group hover:scale-[1.02] transition-transform duration-300">
+                        <div class="flex justify-between items-start">
+                            <div class="bg-white p-3 rounded-full h-14 w-14 flex items-center justify-center shadow-sm text-purple-500">
+                                <i class="fas fa-clipboard-check text-2xl"></i>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-gray-600 font-semibold text-sm uppercase">Auction Results</p>
+                                <h3 class="text-3xl font-bold text-gray-800 mt-1">8</h3>
+                            </div>
+                        </div>
+                        <div class="mt-6 flex justify-between items-center">
+                            <span class="text-gray-700 text-sm font-medium">View History</span>
+                            <button class="bg-purple-100 hover:bg-purple-200 text-purple-600 px-4 py-1 rounded-full text-xs font-bold shadow-sm transition">View</button>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobile-overlay');
+            
+            // Toggle sidebar visibility/position
+            if (sidebar.classList.contains('-translate-x-full')) {
+                // Open Menu
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+            } else {
+                // Close Menu
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+            }
+        }
+    </script>
+
+</body>
+</html>

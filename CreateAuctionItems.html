@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Auction Item | Sybarite Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Theme Colors */
+        .sidebar-bg { background-color: #005f56; }
+        .header-bg { background-color: #1a1a1a; }
+        .main-bg { background-color: #2d2d2d; }
+        .accent-gold { color: #d4af37; }
+        .input-dark {
+            background-color: #3b3b3b;
+            border: 1px solid #555;
+            color: white;
+            transition: all 0.3s;
+        }
+        .input-dark:focus {
+            border-color: #005f56;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 95, 86, 0.3);
+        }
+        /* Mobile Sidebar Transition */
+        .mobile-sidebar {
+            transition: transform 0.3s ease-in-out;
+        }
+        .mobile-sidebar-closed {
+            transform: translateX(-100%);
+        }
+        .mobile-sidebar-open {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body class="font-sans antialiased text-gray-200 bg-[#2d2d2d]">
+
+    <div class="flex h-screen overflow-hidden">
+
+        <div id="mobile-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden glass"></div>
+        
+        <aside id="mobile-sidebar" class="fixed inset-y-0 left-0 w-64 sidebar-bg text-white z-50 mobile-sidebar mobile-sidebar-closed md:hidden flex flex-col border-r border-teal-800">
+            <div class="h-16 flex items-center justify-between px-6 border-b border-teal-700 bg-black/20">
+                <span class="font-bold text-[#d4af37]">MENU</span>
+                <button onclick="toggleSidebar()" class="text-white hover:text-red-400">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <nav class="flex-1 overflow-y-auto py-4">
+                <ul class="space-y-1">
+                    <li><a href="index.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700"><i class="fas fa-th-large w-6"></i> Dashboard</a></li>
+                    <li><a href="#" class="flex items-center px-6 py-3 text-[#d4af37] border-l-4 border-[#d4af37] bg-black/10"><i class="fas fa-gavel w-6"></i> Create Item</a></li>
+                    <li><a href="ApproveStreamerAccounts.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700"><i class="fas fa-user-check w-6"></i> Streamers</a></li>
+                    <li><a href="ManagePaymentsDisputes.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700"><i class="fas fa-credit-card w-6"></i> Payments</a></li>
+                    <li><a href="CompleteAuctionResults.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700"><i class="fas fa-trophy w-6"></i> Results</a></li>
+                    <li><a href="ManageTimeFrame.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700"><i class="fas fa-clock w-6"></i> Time Frame</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <aside class="w-64 sidebar-bg text-white flex-shrink-0 hidden md:flex flex-col border-r border-teal-800">
+            <div class="h-20 flex items-center justify-center border-b border-teal-700 bg-black/20">
+                <div class="text-center">
+                    <h1 class="text-xl font-bold tracking-wider text-[#d4af37]">SYBARITE SOCIETY</h1>
+                    <p class="text-xs text-gray-300 tracking-[0.2em]">AUCTIONS</p>
+                </div>
+            </div>
+            <nav class="flex-1 overflow-y-auto py-4">
+                <ul class="space-y-1">
+                    <li><a href="index.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 transition"><i class="fas fa-th-large w-6"></i> <span>Dashboard</span></a></li>
+                    <li><a href="#" class="flex items-center px-6 py-3 text-[#d4af37] border-l-4 border-[#d4af37] bg-black/10"><i class="fas fa-gavel w-6"></i> <span class="font-medium">Create Auction Item</span></a></li>
+                    <li><a href="ApproveStreamerAccounts.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 transition"><i class="fas fa-user-check w-6"></i> <span>Approve Streamers</span></a></li>
+                    <li><a href="ManagePaymentsDisputes.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 transition"><i class="fas fa-credit-card w-6"></i> <span>Payments & Disputes</span></a></li>
+                    <li><a href="CompleteAuctionResults.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 transition"><i class="fas fa-trophy w-6"></i> <span>Auction Results</span></a></li>
+                    <li><a href="ManageTimeFrame.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 transition"><i class="fas fa-clock w-6"></i> <span>Live Stream Time</span></a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <div class="flex-1 flex flex-col h-screen overflow-hidden main-bg">
+            
+            <header class="header-bg text-white h-16 flex items-center justify-between px-4 md:px-6 shadow-md z-10 shrink-0">
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleSidebar()" class="md:hidden text-gray-300 hover:text-white p-1">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                    <h2 class="text-base md:text-lg font-semibold tracking-wide truncate">Create Item</h2>
+                </div>
+                <div class="flex items-center space-x-2 md:space-x-4">
+                    <button class="bg-gray-700 hover:bg-gray-600 px-3 py-1.5 md:px-4 md:py-2 rounded text-xs md:text-sm transition">Cancel</button>
+                    <button class="bg-[#d4af37] hover:bg-[#b8962e] text-black font-bold px-3 py-1.5 md:px-6 md:py-2 rounded text-xs md:text-sm shadow-lg transition whitespace-nowrap">Publish</button>
+                </div>
+            </header>
+
+            <main class="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-6 pb-20 md:pb-6">
+                
+                <div class="flex flex-col lg:flex-row gap-6 max-w-7xl mx-auto">
+                    
+                    <div class="w-full lg:w-2/3 space-y-6 order-2 lg:order-1">
+                        
+                        <div class="bg-[#1e1e1e] p-4 md:p-6 rounded-lg shadow-xl border border-gray-700">
+                            <h3 class="text-lg font-medium text-gray-100 mb-4 border-b border-gray-700 pb-2">Item Details</h3>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-400 mb-1">Product Name</label>
+                                    <input type="text" placeholder="e.g. Vintage Rolex" class="w-full rounded-md p-3 input-dark text-sm md:text-base">
+                                </div>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-400 mb-1">Category</label>
+                                        <select class="w-full rounded-md p-3 input-dark text-sm md:text-base">
+                                            <option>Watches</option>
+                                            <option>Jewelry</option>
+                                            <option>Art</option>
+                                            <option>Cars</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-400 mb-1">Condition</label>
+                                        <select class="w-full rounded-md p-3 input-dark text-sm md:text-base">
+                                            <option>New / Unopened</option>
+                                            <option>Like New</option>
+                                            <option>Used - Good</option>
+                                            <option>Vintage</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-400 mb-1">Description</label>
+                                    <textarea rows="4" placeholder="Describe the item..." class="w-full rounded-md p-3 input-dark text-sm md:text-base"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-[#1e1e1e] p-4 md:p-6 rounded-lg shadow-xl border border-gray-700">
+                            <h3 class="text-lg font-medium text-gray-100 mb-4 border-b border-gray-700 pb-2">Pricing & Schedule</h3>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-400 mb-1">Starting Price ($)</label>
+                                    <input type="number" placeholder="0.00" class="w-full rounded-md p-3 input-dark">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-400 mb-1">Reserve Price ($)</label>
+                                    <input type="number" placeholder="Minimum" class="w-full rounded-md p-3 input-dark">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-400 mb-1">Auction Start</label>
+                                    <input type="datetime-local" class="w-full rounded-md p-3 input-dark text-gray-300 text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-400 mb-1">Auction End</label>
+                                    <input type="datetime-local" class="w-full rounded-md p-3 input-dark text-gray-300 text-sm">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-[#1e1e1e] p-4 md:p-6 rounded-lg shadow-xl border border-gray-700">
+                            <h3 class="text-lg font-medium text-gray-100 mb-4 border-b border-gray-700 pb-2">Media Gallery</h3>
+                            
+                            <div class="border-2 border-dashed border-gray-600 rounded-lg p-6 md:p-8 text-center hover:border-teal-500 transition cursor-pointer bg-[#252525]">
+                                <i class="fas fa-cloud-upload-alt text-3xl md:text-4xl text-gray-500 mb-3"></i>
+                                <p class="text-gray-300 font-medium text-sm md:text-base">Click or drag images here</p>
+                                <input type="file" class="hidden">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="w-full lg:w-1/3 order-1 lg:order-2">
+                        <div class="lg:sticky lg:top-6">
+                            <h4 class="text-gray-400 text-sm uppercase tracking-wide mb-3">Live Preview</h4>
+                            
+                            <div class="bg-white rounded-xl overflow-hidden shadow-2xl w-full max-w-sm mx-auto lg:mx-0 transform hover:scale-105 transition duration-300">
+                                <div class="relative h-56 md:h-64 bg-gray-200 flex items-center justify-center">
+                                    <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?q=80&w=2599&auto=format&fit=crop" alt="Product" class="w-full h-full object-cover">
+                                    <div class="absolute top-3 left-3 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded shadow animate-pulse">LIVE</div>
+                                </div>
+                                
+                                <div class="p-4 md:p-5">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="text-xs font-bold text-teal-700 bg-teal-100 px-2 py-0.5 rounded uppercase">Watches</span>
+                                        <span class="text-xs text-gray-500"><i class="fas fa-eye mr-1"></i> 24</span>
+                                    </div>
+                                    
+                                    <h3 class="text-lg font-bold text-gray-900 leading-tight mb-2">Vintage Rolex Submariner</h3>
+                                    
+                                    <div class="flex justify-between items-end border-t pt-4">
+                                        <div>
+                                            <p class="text-xs text-gray-500">Current Bid</p>
+                                            <p class="text-xl font-extrabold text-[#d4af37]">$12,500</p>
+                                        </div>
+                                        <div class="text-right">
+                                            <p class="text-xs text-red-500 font-semibold mb-1">02:14:50</p>
+                                            <button class="bg-[#005f56] text-white text-xs md:text-sm px-4 py-2 rounded font-medium">Bid Now</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 p-3 bg-blue-900/30 border border-blue-800 rounded-lg">
+                                <p class="text-xs md:text-sm text-blue-200"><i class="fas fa-info-circle mr-1"></i> This is how users see it.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('mobile-sidebar');
+            const overlay = document.getElementById('mobile-overlay');
+            
+            if (sidebar.classList.contains('mobile-sidebar-closed')) {
+                // Open
+                sidebar.classList.remove('mobile-sidebar-closed');
+                sidebar.classList.add('mobile-sidebar-open');
+                overlay.classList.remove('hidden');
+            } else {
+                // Close
+                sidebar.classList.remove('mobile-sidebar-open');
+                sidebar.classList.add('mobile-sidebar-closed');
+                overlay.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>

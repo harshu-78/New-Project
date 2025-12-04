@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Time Frame | Sybarite Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Shared Theme */
+        .sidebar-bg { background-color: #005f56; }
+        .header-bg { background-color: #1a1a1a; }
+        .main-bg { background-color: #2d2d2d; }
+        .card-bg { background-color: #1e1e1e; }
+        .input-dark { background-color: #333; border: 1px solid #555; color: white; }
+        .input-dark:focus { border-color: #005f56; outline: none; }
+        
+        /* Time Specific Styles */
+        .clock-font { font-family: 'Courier New', Courier, monospace; letter-spacing: 2px; }
+        
+        /* Timeline Line */
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 24px; /* Adjust based on icon size */
+            width: 2px;
+            background: #444;
+            z-index: 0;
+        }
+
+        /* Mobile Sidebar Transition */
+        .mobile-sidebar {
+            transition: transform 0.3s ease-in-out;
+        }
+        .mobile-sidebar-closed {
+            transform: translateX(-100%);
+        }
+        .mobile-sidebar-open {
+            transform: translateX(0);
+        }
+        /* Glass overlay for mobile menu */
+        .glass {
+            backdrop-filter: blur(2px);
+        }
+    </style>
+</head>
+<body class="font-sans antialiased text-gray-200 bg-[#2d2d2d]">
+
+    <div class="flex h-screen overflow-hidden">
+
+        <div id="mobile-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden glass"></div>
+        
+        <aside id="mobile-sidebar" class="fixed inset-y-0 left-0 w-64 sidebar-bg text-white z-50 mobile-sidebar mobile-sidebar-closed md:hidden flex flex-col border-r border-teal-800">
+            <div class="h-16 flex items-center justify-between px-6 border-b border-teal-700 bg-black/20">
+                <span class="font-bold text-[#d4af37]">MENU</span>
+                <button onclick="toggleSidebar()" class="text-white hover:text-red-400">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <nav class="flex-1 overflow-y-auto py-4">
+                <ul class="space-y-1">
+                    <li><a href="index.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700"><i class="fas fa-th-large w-6"></i> Dashboard</a></li>
+                    <li><a href="CreateAuctionItems.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700"><i class="fas fa-gavel w-6"></i> Create Item</a></li>
+                    <li><a href="ApproveStreamerAccounts.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700"><i class="fas fa-user-check w-6"></i> Streamers</a></li>
+                    <li><a href="ManagePaymentsDisputes.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700"><i class="fas fa-credit-card w-6"></i> Payments</a></li>
+                    <li><a href="CompleteAuctionResults.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700"><i class="fas fa-trophy w-6"></i> Results</a></li>
+                    <li><a href="#" class="flex items-center px-6 py-3 text-[#d4af37] border-l-4 border-[#d4af37] bg-black/10"><i class="fas fa-clock w-6"></i> Time Frame</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <aside class="w-64 sidebar-bg text-white flex-shrink-0 hidden md:flex flex-col border-r border-teal-800">
+            <div class="h-20 flex items-center justify-center border-b border-teal-700 bg-black/20">
+                <div class="text-center">
+                    <h1 class="text-xl font-bold tracking-wider text-[#d4af37]">SYBARITE SOCIETY</h1>
+                    <p class="text-xs text-gray-300 tracking-[0.2em]">AUCTIONS</p>
+                </div>
+            </div>
+            <nav class="flex-1 overflow-y-auto py-4">
+                <ul class="space-y-1">
+                    <li><a href="index.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 transition"><i class="fas fa-th-large w-6"></i> <span>Dashboard</span></a></li>
+                    <li><a href="CreateAuctionItems.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 transition"><i class="fas fa-gavel w-6"></i> <span>Create Auction Item</span></a></li>
+                    <li><a href="ApproveStreamerAccounts.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 transition"><i class="fas fa-user-check w-6"></i> <span>Approve Streamers</span></a></li>
+                    <li><a href="ManagePaymentsDisputes.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 transition"><i class="fas fa-credit-card w-6"></i> <span>Payments & Disputes</span></a></li>
+                    <li><a href="CompleteAuctionResults.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 transition"><i class="fas fa-trophy w-6"></i> <span>Auction Results</span></a></li>
+                     <li><a href="#" class="flex items-center px-6 py-3 text-[#d4af37] border-l-4 border-[#d4af37] bg-black/10"><i class="fas fa-clock w-6"></i> <span class="font-medium">Live Stream Time</span></a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <div class="flex-1 flex flex-col h-screen overflow-hidden main-bg">
+            
+            <header class="header-bg text-white h-16 flex items-center justify-between px-4 md:px-6 shadow-md z-10 shrink-0">
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleSidebar()" class="md:hidden text-gray-300 hover:text-white p-1">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                    <h2 class="text-base md:text-lg font-semibold tracking-wide truncate">Streaming Schedule</h2>
+                </div>
+                
+                <div class="flex items-center space-x-2 md:space-x-4 bg-black/30 px-3 py-1 md:px-4 rounded-full border border-gray-700">
+                    <span class="text-xs text-gray-400 uppercase hidden md:inline">Server Time</span>
+                    <div id="live-clock" class="text-sm md:text-xl font-bold text-[#d4af37] clock-font">12:30:45 PM</div>
+                </div>
+            </header>
+
+            <main class="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-6 pb-20 md:pb-6">
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                    <div class="lg:col-span-2 space-y-6">
+                        
+                        <div class="bg-gradient-to-r from-[#1e1e1e] to-[#252525] p-5 md:p-6 rounded-lg border-l-4 border-red-500 shadow-xl relative overflow-hidden">
+                            <div class="absolute top-4 right-4 flex items-center space-x-2">
+                                <span class="relative flex h-3 w-3">
+                                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                  <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                                </span>
+                                <span class="text-red-500 font-bold text-xs md:text-sm tracking-wider">LIVE NOW</span>
+                            </div>
+
+                            <h3 class="text-gray-400 text-xs md:text-sm uppercase tracking-wide mb-1">Current Session</h3>
+                            <h2 class="text-2xl md:text-3xl font-bold text-white mb-4 pr-16">Luxury Watch Collection Hunt</h2>
+                            
+                            <div class="flex flex-col md:flex-row md:items-center text-sm text-gray-300 mb-6 gap-2 md:gap-6">
+                                <span><i class="fas fa-user-circle mr-2 text-teal-500"></i> Host: <strong>Alex The Watchman</strong></span>
+                                <span><i class="fas fa-eye mr-2 text-teal-500"></i> Viewers: <strong>1,240</strong></span>
+                            </div>
+
+                            <div class="mb-2 flex justify-between text-xs font-semibold">
+                                <span class="text-gray-400">Elapsed: 45m</span>
+                                <span class="text-red-400">Remaining: 15m</span>
+                            </div>
+                            <div class="w-full bg-gray-700 rounded-full h-4 overflow-hidden">
+                                <div class="bg-gradient-to-r from-teal-600 to-green-500 h-4 rounded-full" style="width: 75%"></div>
+                            </div>
+
+                            <div class="mt-6 flex flex-col sm:flex-row gap-3">
+                                <button class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded text-sm transition font-medium w-full sm:w-auto">
+                                    <i class="fas fa-plus mr-1"></i> Add 10 Mins
+                                </button>
+                                <button class="bg-red-900/50 hover:bg-red-700 text-red-300 border border-red-800 px-4 py-2 rounded text-sm transition font-medium w-full sm:w-auto">
+                                    <i class="fas fa-stop mr-1"></i> End Stream
+                                </button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-200 mb-4">Upcoming Schedule</h3>
+                            <div class="relative timeline-line space-y-6 pl-2">
+                                
+                                <div class="relative pl-12">
+                                    <div class="absolute left-3 top-1 bg-[#d4af37] h-6 w-6 rounded-full border-4 border-[#2d2d2d] z-10"></div>
+                                    <div class="card-bg p-4 rounded-lg border border-gray-700 hover:border-teal-600 transition group cursor-pointer">
+                                        <div class="flex justify-between items-start">
+                                            <div>
+                                                <span class="text-[#d4af37] font-bold text-xs md:text-sm">Today, 02:00 PM - 04:00 PM</span>
+                                                <h4 class="text-base md:text-lg font-bold text-white mt-1 group-hover:text-teal-400 transition">Modern Art Auction</h4>
+                                                <p class="text-xs md:text-sm text-gray-400 mt-1">Host: Sarah Jenkins</p>
+                                            </div>
+                                            <button class="text-gray-500 hover:text-white"><i class="fas fa-edit"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="relative pl-12">
+                                    <div class="absolute left-3 top-1 bg-gray-500 h-6 w-6 rounded-full border-4 border-[#2d2d2d] z-10"></div>
+                                    <div class="card-bg p-4 rounded-lg border border-gray-700 hover:border-teal-600 transition group cursor-pointer">
+                                        <div class="flex justify-between items-start">
+                                            <div>
+                                                <span class="text-gray-400 font-bold text-xs md:text-sm">Today, 05:00 PM - 06:30 PM</span>
+                                                <h4 class="text-base md:text-lg font-bold text-white mt-1 group-hover:text-teal-400 transition">Vintage Car Parts</h4>
+                                                <p class="text-xs md:text-sm text-gray-400 mt-1">Host: MotoGarage</p>
+                                            </div>
+                                            <button class="text-gray-500 hover:text-white"><i class="fas fa-edit"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="relative pl-12">
+                                    <div class="absolute left-3 top-1 bg-gray-600 h-6 w-6 rounded-full border-4 border-[#2d2d2d] z-10"></div>
+                                    <div class="card-bg p-4 rounded-lg border border-gray-700 opacity-75">
+                                        <div class="flex justify-between items-start">
+                                            <div>
+                                                <span class="text-gray-500 font-bold text-xs md:text-sm">Tomorrow, 10:00 AM</span>
+                                                <h4 class="text-base md:text-lg font-bold text-gray-300 mt-1">Morning Coffee & Antiques</h4>
+                                                <p class="text-xs md:text-sm text-gray-500 mt-1">Host: DailyVintage</p>
+                                            </div>
+                                            <button class="text-gray-500 hover:text-white"><i class="fas fa-edit"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="space-y-6">
+                        
+                        <div class="card-bg p-5 md:p-6 rounded-lg border border-teal-800/50 shadow-lg">
+                            <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                                <i class="fas fa-calendar-plus mr-2 text-teal-500"></i> Schedule Slot
+                            </h3>
+                            
+                            <form class="space-y-4">
+                                <div>
+                                    <label class="block text-xs text-gray-400 uppercase font-bold mb-1">Session Title</label>
+                                    <input type="text" placeholder="e.g. Evening Gala" class="w-full rounded p-2 input-dark text-sm">
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs text-gray-400 uppercase font-bold mb-1">Select Streamer</label>
+                                    <select class="w-full rounded p-2 input-dark text-sm">
+                                        <option>Select Streamer...</option>
+                                        <option>Alex The Watchman</option>
+                                        <option>Sarah Jenkins</option>
+                                    </select>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="block text-xs text-gray-400 uppercase font-bold mb-1">Date</label>
+                                        <input type="date" class="w-full rounded p-2 input-dark text-sm text-gray-300">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs text-gray-400 uppercase font-bold mb-1">Start Time</label>
+                                        <input type="time" class="w-full rounded p-2 input-dark text-sm text-gray-300">
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-xs text-gray-400 uppercase font-bold mb-1">Duration (Hours)</label>
+                                    <div class="flex items-center space-x-2">
+                                        <input type="number" value="1" class="w-20 rounded p-2 input-dark text-sm">
+                                        <span class="text-sm text-gray-500">Calculated End: 03:00 PM</span>
+                                    </div>
+                                </div>
+
+                                <button class="w-full bg-[#005f56] hover:bg-[#004d46] text-white font-bold py-2 rounded mt-2 shadow transition">
+                                    Create Schedule
+                                </button>
+                            </form>
+                        </div>
+
+                        <div class="bg-[#1e1e1e] p-5 md:p-6 rounded-lg border border-gray-700">
+                            <h3 class="text-lg font-semibold text-white mb-4">Settings</h3>
+                            
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="text-sm">
+                                    <p class="text-gray-200">Auto-Extend Bidding</p>
+                                    <p class="text-xs text-gray-500">Add 2 mins if bid in last 30s</p>
+                                </div>
+                                <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                                    <input type="checkbox" name="toggle" id="toggle1" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer border-teal-600 right-0"/>
+                                    <label for="toggle1" class="toggle-label block overflow-hidden h-5 rounded-full bg-teal-600 cursor-pointer"></label>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <div class="text-sm">
+                                    <p class="text-gray-200">Allow Streamer Overtime</p>
+                                    <p class="text-xs text-gray-500">Max 15 mins buffer</p>
+                                </div>
+                                <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                                    <input type="checkbox" name="toggle" id="toggle2" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer border-gray-500"/>
+                                    <label for="toggle2" class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-500 cursor-pointer"></label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Clock Logic
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('live-clock').innerText = now.toLocaleTimeString();
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Sidebar Logic
+        function toggleSidebar() {
+            const sidebar = document.getElementById('mobile-sidebar');
+            const overlay = document.getElementById('mobile-overlay');
+            
+            if (sidebar.classList.contains('mobile-sidebar-closed')) {
+                // Open
+                sidebar.classList.remove('mobile-sidebar-closed');
+                sidebar.classList.add('mobile-sidebar-open');
+                overlay.classList.remove('hidden');
+            } else {
+                // Close
+                sidebar.classList.remove('mobile-sidebar-open');
+                sidebar.classList.add('mobile-sidebar-closed');
+                overlay.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>

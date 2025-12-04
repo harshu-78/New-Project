@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payments & Disputes | Sybarite Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Theme Configuration */
+        .sidebar-bg { background-color: #005f56; }
+        .header-bg { background-color: #1a1a1a; }
+        .main-bg { background-color: #2d2d2d; }
+        .card-bg { background-color: #1e1e1e; }
+        .accent-gold { color: #d4af37; }
+        
+        /* Custom Table Styles */
+        .custom-table th {
+            background-color: #333;
+            color: #ccc;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            padding: 12px 16px;
+            text-align: left;
+            white-space: nowrap; /* Prevent headers from wrapping awkwardly */
+        }
+        .custom-table td {
+            border-bottom: 1px solid #333;
+            padding: 16px;
+            color: #e5e7eb;
+            font-size: 0.875rem;
+            white-space: nowrap; /* Keep data on one line, scroll instead */
+        }
+        .custom-table tr:hover td {
+            background-color: #383838;
+        }
+
+        /* Tab Active State */
+        .tab-active {
+            border-bottom: 2px solid #d4af37;
+            color: #d4af37;
+        }
+        .tab-inactive {
+            color: #9ca3af;
+            border-bottom: 2px solid transparent;
+        }
+        .tab-inactive:hover {
+            color: #e5e7eb;
+            border-bottom: 2px solid #4b5563;
+        }
+
+        /* Mobile Sidebar Transition */
+        .mobile-sidebar { transition: transform 0.3s ease-in-out; }
+        .mobile-sidebar-closed { transform: translateX(-100%); }
+        .mobile-sidebar-open { transform: translateX(0); }
+    </style>
+</head>
+<body class="font-sans antialiased text-gray-200 bg-[#2d2d2d]">
+
+    <div class="flex h-screen overflow-hidden">
+
+        <div id="mobile-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden backdrop-blur-sm"></div>
+        
+        <aside id="mobile-sidebar" class="fixed inset-y-0 left-0 w-64 sidebar-bg text-white z-50 mobile-sidebar mobile-sidebar-closed md:hidden flex flex-col border-r border-teal-800 shadow-2xl">
+            <div class="h-16 flex items-center justify-between px-6 border-b border-teal-700 bg-black/20">
+                <span class="font-bold text-[#d4af37]">MENU</span>
+                <button onclick="toggleSidebar()" class="text-white hover:text-red-400">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <nav class="flex-1 overflow-y-auto py-4">
+                <ul class="space-y-1">
+                    <li><a href="index.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700"><i class="fas fa-th-large w-6"></i> Dashboard</a></li>
+                    <li><a href="CreateAuctionItems.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700"><i class="fas fa-gavel w-6"></i> Create Item</a></li>
+                    <li><a href="ApproveStreamerAccounts.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700"><i class="fas fa-user-check w-6"></i> Streamers</a></li>
+                    <li><a href="#" class="flex items-center px-6 py-3 text-[#d4af37] border-l-4 border-[#d4af37] bg-black/10"><i class="fas fa-credit-card w-6"></i> Payments</a></li>
+                    <li><a href="CompleteAuctionResults.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700"><i class="fas fa-trophy w-6"></i> Results</a></li>
+                    <li><a href="ManageTimeFrame.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700"><i class="fas fa-clock w-6"></i> Time Frame</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <aside class="w-64 sidebar-bg text-white flex-shrink-0 hidden md:flex flex-col border-r border-teal-800">
+            <div class="h-20 flex items-center justify-center border-b border-teal-700 bg-black/20">
+                <div class="text-center">
+                    <h1 class="text-xl font-bold tracking-wider text-[#d4af37]">SYBARITE SOCIETY</h1>
+                    <p class="text-xs text-gray-300 tracking-[0.2em]">AUCTIONS</p>
+                </div>
+            </div>
+             <nav class="flex-1 overflow-y-auto py-4">
+                <ul class="space-y-1">
+                    <li><a href="index.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 transition"><i class="fas fa-th-large w-6"></i> <span>Dashboard</span></a></li>
+                    <li><a href="CreateAuctionItems.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 transition"><i class="fas fa-gavel w-6"></i> <span>Create Auction Item</span></a></li>
+                    <li><a href="ApproveStreamerAccounts.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 transition"><i class="fas fa-user-check w-6"></i> <span>Approve Streamers</span></a></li>
+                    <li><a href="#" class="flex items-center px-6 py-3 text-[#d4af37] border-l-4 border-[#d4af37] bg-black/10"><i class="fas fa-credit-card w-6"></i> <span class="font-medium">Payments & Disputes</span></a></li>
+                    <li><a href="CompleteAuctionResults.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 transition"><i class="fas fa-trophy w-6"></i> <span>Auction Results</span></a></li>
+                    <li><a href="ManageTimeFrame.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 transition"><i class="fas fa-clock w-6"></i> <span>Live Stream Time</span></a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <div class="flex-1 flex flex-col h-screen overflow-hidden main-bg">
+            
+            <header class="header-bg text-white h-16 flex items-center justify-between px-4 md:px-6 shadow-md z-10 shrink-0">
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleSidebar()" class="md:hidden text-gray-300 hover:text-white p-1">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                    <h2 class="text-base md:text-lg font-semibold tracking-wide truncate">Financial Overview</h2>
+                </div>
+                <div class="flex items-center space-x-2 md:space-x-4">
+                    <button class="bg-gray-700 hover:bg-gray-600 px-3 py-1.5 md:px-4 md:py-2 rounded text-xs md:text-sm transition flex items-center">
+                        <i class="fas fa-download mr-0 md:mr-2"></i> <span class="hidden md:inline">Export Report</span><span class="md:hidden">Export</span>
+                    </button>
+                </div>
+            </header>
+
+            <main class="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-6 pb-20 md:pb-6">
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
+                    
+                    <div class="card-bg p-5 rounded-lg border border-gray-700 shadow relative overflow-hidden">
+                        <div class="absolute right-0 top-0 p-4 opacity-10">
+                            <i class="fas fa-wallet text-6xl text-[#d4af37]"></i>
+                        </div>
+                        <p class="text-gray-400 text-xs uppercase font-bold">Total Revenue</p>
+                        <h3 class="text-2xl font-bold text-[#d4af37] mt-1">$1,240,500</h3>
+                        <p class="text-xs text-green-500 mt-2"><i class="fas fa-arrow-up"></i> +12% this month</p>
+                    </div>
+
+                    <div class="card-bg p-5 rounded-lg border border-gray-700 shadow">
+                        <p class="text-gray-400 text-xs uppercase font-bold">Funds in Escrow</p>
+                        <h3 class="text-2xl font-bold text-white mt-1">$45,200</h3>
+                        <p class="text-xs text-gray-500 mt-2">Held until item delivery</p>
+                    </div>
+
+                    <div class="bg-red-900/20 p-5 rounded-lg border border-red-800 shadow">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-red-400 text-xs uppercase font-bold">Action Required</p>
+                                <h3 class="text-2xl font-bold text-red-500 mt-1">3 Disputes</h3>
+                            </div>
+                            <div class="bg-red-500 text-white rounded-full h-10 w-10 flex items-center justify-center animate-pulse">
+                                <i class="fas fa-exclamation"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-bg p-5 rounded-lg border border-gray-700 shadow">
+                        <p class="text-gray-400 text-xs uppercase font-bold">Streamer Payouts</p>
+                        <h3 class="text-2xl font-bold text-white mt-1">$8,400</h3>
+                        <p class="text-xs text-gray-500 mt-2">Pending processing</p>
+                    </div>
+                </div>
+
+                <div class="flex space-x-6 border-b border-gray-700 mb-6 overflow-x-auto">
+                    <button onclick="switchTab('disputes')" id="tab-disputes" class="pb-3 text-sm font-medium tab-active transition whitespace-nowrap">
+                        <i class="fas fa-gavel mr-2"></i> Dispute Center
+                    </button>
+                    <button onclick="switchTab('transactions')" id="tab-transactions" class="pb-3 text-sm font-medium tab-inactive transition whitespace-nowrap">
+                        <i class="fas fa-list mr-2"></i> Transaction History
+                    </button>
+                </div>
+
+                <div id="content-disputes" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    
+                    <div class="card-bg rounded-lg border border-gray-600 shadow-lg">
+                        <div class="p-4 border-b border-gray-700 flex justify-between items-center bg-red-900/10">
+                            <span class="bg-red-500/20 text-red-400 text-[10px] md:text-xs font-bold px-2 py-1 rounded uppercase">Item Not Received</span>
+                            <span class="text-gray-400 text-xs md:text-sm">#DIS-9921</span>
+                        </div>
+                        <div class="p-4 md:p-5">
+                            <div class="flex justify-between items-center mb-4">
+                                <div class="text-center flex-1">
+                                    <img src="https://i.pravatar.cc/150?img=8" class="h-8 w-8 md:h-10 md:w-10 rounded-full mx-auto border border-gray-500">
+                                    <p class="text-[10px] md:text-xs text-gray-300 mt-1 truncate">Buyer</p>
+                                </div>
+                                <div class="text-center px-2 flex-1">
+                                    <p class="text-[10px] md:text-xs text-gray-500">Amount</p>
+                                    <p class="text-lg md:text-xl font-bold text-[#d4af37]">$2,500</p>
+                                    <i class="fas fa-exchange-alt text-gray-600 mt-1"></i>
+                                </div>
+                                <div class="text-center flex-1">
+                                    <img src="https://i.pravatar.cc/150?img=3" class="h-8 w-8 md:h-10 md:w-10 rounded-full mx-auto border border-gray-500">
+                                    <p class="text-[10px] md:text-xs text-gray-300 mt-1 truncate">Seller</p>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-black/30 p-3 rounded mb-4 text-xs md:text-sm">
+                                <p class="text-gray-300"><span class="text-gray-500 font-bold">Buyer:</span> "No tracking provided after 14 days."</p>
+                                <p class="text-gray-300 mt-2"><span class="text-gray-500 font-bold">Seller:</span> No response.</p>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <button class="bg-red-600/20 hover:bg-red-600 hover:text-white text-red-400 border border-red-800 py-2 rounded text-xs md:text-sm font-medium transition">
+                                    Refund Buyer
+                                </button>
+                                <button class="bg-teal-600/20 hover:bg-teal-600 hover:text-white text-teal-400 border border-teal-800 py-2 rounded text-xs md:text-sm font-medium transition">
+                                    Release Funds
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-bg rounded-lg border border-gray-600 shadow-lg">
+                        <div class="p-4 border-b border-gray-700 flex justify-between items-center bg-orange-900/10">
+                            <span class="bg-orange-500/20 text-orange-400 text-[10px] md:text-xs font-bold px-2 py-1 rounded uppercase">Item Damaged</span>
+                            <span class="text-gray-400 text-xs md:text-sm">#DIS-9925</span>
+                        </div>
+                        <div class="p-4 md:p-5">
+                            <div class="flex justify-between items-center mb-4">
+                                <div class="text-center flex-1">
+                                    <img src="https://i.pravatar.cc/150?img=5" class="h-8 w-8 md:h-10 md:w-10 rounded-full mx-auto border border-gray-500">
+                                    <p class="text-[10px] md:text-xs text-gray-300 mt-1 truncate">Buyer</p>
+                                </div>
+                                <div class="text-center px-2 flex-1">
+                                    <p class="text-[10px] md:text-xs text-gray-500">Amount</p>
+                                    <p class="text-lg md:text-xl font-bold text-[#d4af37]">$450</p>
+                                    <i class="fas fa-exchange-alt text-gray-600 mt-1"></i>
+                                </div>
+                                <div class="text-center flex-1">
+                                    <img src="https://i.pravatar.cc/150?img=12" class="h-8 w-8 md:h-10 md:w-10 rounded-full mx-auto border border-gray-500">
+                                    <p class="text-[10px] md:text-xs text-gray-300 mt-1 truncate">Seller</p>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-black/30 p-3 rounded mb-4 text-xs md:text-sm">
+                                <p class="text-gray-300"><span class="text-gray-500 font-bold">Status:</span> Admin Investigating.</p>
+                                <div class="mt-2 text-xs text-blue-400 cursor-pointer hover:underline"><i class="fas fa-image"></i> View Damaged Photos Proof</div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <button class="bg-gray-700 hover:bg-gray-600 text-white py-2 rounded text-xs md:text-sm font-medium transition col-span-2">
+                                    <i class="fas fa-comments"></i> Open Group Chat
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div id="content-transactions" class="hidden card-bg rounded-lg shadow border border-gray-700 overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full custom-table min-w-[600px]"> <thead>
+                                <tr>
+                                    <th>Transaction ID</th>
+                                    <th>Date</th>
+                                    <th>User</th>
+                                    <th>Type</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-mono text-gray-400">#TRX-8821</td>
+                                    <td>Oct 24, 2025</td>
+                                    <td class="flex items-center gap-2">
+                                        <div class="h-6 w-6 rounded-full bg-gray-600"></div> John Doe
+                                    </td>
+                                    <td>Item Purchase</td>
+                                    <td class="font-bold text-white">$1,200.00</td>
+                                    <td><span class="bg-green-900 text-green-300 px-2 py-1 rounded text-xs">Completed</span></td>
+                                    <td><button class="text-gray-400 hover:text-white"><i class="fas fa-ellipsis-v"></i></button></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-mono text-gray-400">#TRX-8822</td>
+                                    <td>Oct 24, 2025</td>
+                                    <td class="flex items-center gap-2">
+                                        <div class="h-6 w-6 rounded-full bg-gray-600"></div> Alex Smith
+                                    </td>
+                                    <td>Deposit</td>
+                                    <td class="font-bold text-white">$500.00</td>
+                                    <td><span class="bg-yellow-900 text-yellow-300 px-2 py-1 rounded text-xs">Pending</span></td>
+                                    <td><button class="text-gray-400 hover:text-white"><i class="fas fa-ellipsis-v"></i></button></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-mono text-gray-400">#TRX-8820</td>
+                                    <td>Oct 23, 2025</td>
+                                    <td class="flex items-center gap-2">
+                                        <div class="h-6 w-6 rounded-full bg-gray-600"></div> Maria G.
+                                    </td>
+                                    <td>Withdrawal</td>
+                                    <td class="font-bold text-white">-$120.00</td>
+                                    <td><span class="bg-green-900 text-green-300 px-2 py-1 rounded text-xs">Sent</span></td>
+                                    <td><button class="text-gray-400 hover:text-white"><i class="fas fa-ellipsis-v"></i></button></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-mono text-gray-400">#TRX-8819</td>
+                                    <td>Oct 23, 2025</td>
+                                    <td class="flex items-center gap-2">
+                                        <div class="h-6 w-6 rounded-full bg-gray-600"></div> CyberPunk
+                                    </td>
+                                    <td>Subscription</td>
+                                    <td class="font-bold text-white">$15.00</td>
+                                    <td><span class="bg-red-900 text-red-300 px-2 py-1 rounded text-xs">Failed</span></td>
+                                    <td><button class="text-gray-400 hover:text-white"><i class="fas fa-ellipsis-v"></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="p-4 border-t border-gray-700 flex justify-between items-center">
+                        <span class="text-xs text-gray-500">Showing 4 of 128 transactions</span>
+                        <div class="flex space-x-2">
+                            <button class="px-3 py-1 bg-gray-700 rounded text-xs hover:bg-gray-600">Prev</button>
+                            <button class="px-3 py-1 bg-gray-700 rounded text-xs hover:bg-gray-600">Next</button>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('mobile-sidebar');
+            const overlay = document.getElementById('mobile-overlay');
+            
+            if (sidebar.classList.contains('mobile-sidebar-closed')) {
+                sidebar.classList.remove('mobile-sidebar-closed');
+                sidebar.classList.add('mobile-sidebar-open');
+                overlay.classList.remove('hidden');
+            } else {
+                sidebar.classList.remove('mobile-sidebar-open');
+                sidebar.classList.add('mobile-sidebar-closed');
+                overlay.classList.add('hidden');
+            }
+        }
+
+        function switchTab(tabName) {
+            document.getElementById('content-disputes').classList.add('hidden');
+            document.getElementById('content-transactions').classList.add('hidden');
+            
+            document.getElementById('tab-disputes').classList.remove('tab-active');
+            document.getElementById('tab-disputes').classList.add('tab-inactive');
+            document.getElementById('tab-transactions').classList.remove('tab-active');
+            document.getElementById('tab-transactions').classList.add('tab-inactive');
+
+            document.getElementById('content-' + tabName).classList.remove('hidden');
+            document.getElementById('tab-' + tabName).classList.add('tab-active');
+            document.getElementById('tab-' + tabName).classList.remove('tab-inactive');
+        }
+    </script>
+</body>
+</html>

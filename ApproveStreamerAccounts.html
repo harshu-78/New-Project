@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Approve Streamers | Sybarite Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Shared Theme */
+        .sidebar-bg { background-color: #005f56; }
+        .header-bg { background-color: #1a1a1a; }
+        .main-bg { background-color: #2d2d2d; }
+        .card-bg { background-color: #1e1e1e; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #2d2d2d; }
+        ::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #666; }
+
+        /* Transition for Sidebar */
+        .sidebar-transition {
+            transition: transform 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased text-gray-200 bg-[#2d2d2d]">
+
+    <div class="flex h-screen overflow-hidden relative">
+
+        <div id="mobile-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/50 z-20 hidden md:hidden glass"></div>
+
+        <aside id="sidebar" class="sidebar-bg fixed inset-y-0 left-0 z-30 w-64 transform -translate-x-full md:translate-x-0 md:static md:inset-auto flex flex-col border-r border-teal-800 sidebar-transition h-full">
+            <div class="h-20 flex items-center justify-between px-6 border-b border-teal-700 bg-black/20">
+                <div class="text-center w-full">
+                    <h1 class="text-xl font-bold tracking-wider text-[#d4af37]">SYBARITE</h1>
+                    <p class="text-xs text-gray-300 tracking-[0.2em]">ADMIN</p>
+                </div>
+                <button onclick="toggleSidebar()" class="md:hidden text-gray-300 hover:text-white focus:outline-none">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <nav class="flex-1 overflow-y-auto py-4">
+                <ul class="space-y-1">
+                    <li>
+                        <a href="index.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 hover:text-white transition">
+                            <i class="fas fa-th-large w-6"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="CreateAuctionItems.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 hover:text-white transition">
+                            <i class="fas fa-gavel w-6"></i>
+                            <span>Create Auction Item</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center px-6 py-3 text-[#d4af37] border-l-4 border-[#d4af37] bg-black/10">
+                            <i class="fas fa-user-check w-6"></i>
+                            <span class="font-medium">Approve Streamers</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="ManagePaymentsDisputes.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 hover:text-white transition">
+                            <i class="fas fa-credit-card w-6"></i>
+                            <span>Payments & Disputes</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="CompleteAuctionResults.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 hover:text-white transition">
+                            <i class="fas fa-trophy w-6"></i>
+                            <span>Auction Results</span>
+                        </a>
+                    </li>
+                     <li>
+                        <a href="ManageTimeFrame.html" class="flex items-center px-6 py-3 text-gray-200 hover:bg-teal-700 hover:text-white transition">
+                            <i class="fas fa-clock w-6"></i>
+                            <span>Live Stream Time</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <div class="flex-1 flex flex-col h-screen overflow-hidden main-bg w-full">
+            
+            <header class="header-bg text-white h-16 flex items-center justify-between px-4 md:px-6 shadow-md z-10">
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleSidebar()" class="md:hidden text-gray-300 hover:text-white focus:outline-none p-2">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                    <h2 class="text-lg font-semibold tracking-wide truncate">Streamer Requests</h2>
+                </div>
+                
+                <div class="relative hidden sm:block">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                        <i class="fas fa-search text-gray-500"></i>
+                    </span>
+                    <input type="text" placeholder="Search..." class="bg-[#2d2d2d] text-sm text-white rounded-full pl-10 pr-4 py-2 border border-gray-600 focus:outline-none focus:border-teal-500 w-48 md:w-64 transition-all">
+                </div>
+            </header>
+
+            <main class="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-6">
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-8">
+                    <div class="card-bg p-5 rounded-lg border border-gray-700 shadow flex items-center">
+                        <div class="h-12 w-12 rounded-full bg-yellow-500/20 text-yellow-500 flex items-center justify-center mr-4 shrink-0">
+                            <i class="fas fa-clock text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-400 text-xs uppercase font-bold">Pending</p>
+                            <h3 class="text-2xl font-bold text-white">14</h3>
+                        </div>
+                    </div>
+                    <div class="card-bg p-5 rounded-lg border border-gray-700 shadow flex items-center">
+                        <div class="h-12 w-12 rounded-full bg-green-500/20 text-green-500 flex items-center justify-center mr-4 shrink-0">
+                            <i class="fas fa-check text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-400 text-xs uppercase font-bold">Approved</p>
+                            <h3 class="text-2xl font-bold text-white">5</h3>
+                        </div>
+                    </div>
+                    <div class="card-bg p-5 rounded-lg border border-gray-700 shadow flex items-center">
+                        <div class="h-12 w-12 rounded-full bg-red-500/20 text-red-500 flex items-center justify-center mr-4 shrink-0">
+                            <i class="fas fa-ban text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-400 text-xs uppercase font-bold">Rejected</p>
+                            <h3 class="text-2xl font-bold text-white">2</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-3">
+                    <h3 class="text-xl font-semibold text-gray-200">New Applications</h3>
+                    <div class="flex space-x-2 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0">
+                        <button class="px-3 py-1.5 bg-teal-700 text-white rounded text-sm hover:bg-teal-600 transition shrink-0">All</button>
+                        <button class="px-3 py-1.5 bg-[#2d2d2d] border border-gray-600 text-gray-300 rounded text-sm hover:bg-gray-700 transition shrink-0">Gaming</button>
+                        <button class="px-3 py-1.5 bg-[#2d2d2d] border border-gray-600 text-gray-300 rounded text-sm hover:bg-gray-700 transition shrink-0">Art</button>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+
+                    <div class="card-bg rounded-lg p-5 border border-gray-700 shadow-lg hover:border-teal-600 transition duration-300 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+                        <div class="flex items-center gap-4 w-full lg:w-auto">
+                            <div class="relative shrink-0">
+                                <img src="https://i.pravatar.cc/150?img=11" alt="User" class="h-14 w-14 md:h-16 md:w-16 rounded-full border-2 border-gray-600">
+                                <div class="absolute bottom-0 right-0 bg-yellow-500 h-3 w-3 md:h-4 md:w-4 rounded-full border-2 border-[#1e1e1e]" title="Pending"></div>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h4 class="text-lg font-bold text-white truncate">Rahul Verma</h4>
+                                <p class="text-sm text-gray-400 truncate">rahul.v@example.com</p>
+                                <div class="flex items-center gap-2 mt-1 flex-wrap">
+                                    <span class="text-xs bg-purple-900/50 text-purple-300 px-2 py-0.5 rounded border border-purple-800">Vintage Tech</span>
+                                    <span class="text-xs text-gray-500"><i class="fab fa-instagram"></i> 12k</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex-1 lg:px-8 w-full">
+                            <p class="text-sm text-gray-300 italic line-clamp-2 lg:line-clamp-none">"I specialize in vintage watch auctions and have a verified community on Instagram..."</p>
+                            <div class="mt-3 flex flex-wrap gap-4 text-xs">
+                                <a href="#" class="text-blue-400 hover:underline flex items-center"><i class="fas fa-id-card mr-1"></i> View ID</a>
+                                <a href="#" class="text-blue-400 hover:underline flex items-center"><i class="fas fa-link mr-1"></i> Portfolio</a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-3 w-full lg:w-auto mt-2 lg:mt-0">
+                            <button class="h-10 w-12 lg:w-10 rounded lg:rounded-full bg-gray-700 hover:bg-red-600 hover:text-white text-gray-400 transition flex items-center justify-center border border-gray-600" title="Reject">
+                                <i class="fas fa-times"></i>
+                            </button>
+                            <button class="flex-1 lg:flex-none bg-[#005f56] hover:bg-[#004d46] text-white px-6 py-2 rounded font-medium shadow-lg transition flex items-center justify-center gap-2">
+                                <i class="fas fa-check"></i> <span class="lg:hidden">Approve Request</span> <span class="hidden lg:inline">Approve</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card-bg rounded-lg p-5 border border-gray-700 shadow-lg hover:border-teal-600 transition duration-300 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+                        <div class="flex items-center gap-4 w-full lg:w-auto">
+                            <div class="relative shrink-0">
+                                <img src="https://i.pravatar.cc/150?img=5" alt="User" class="h-14 w-14 md:h-16 md:w-16 rounded-full border-2 border-gray-600">
+                                <div class="absolute bottom-0 right-0 bg-yellow-500 h-3 w-3 md:h-4 md:w-4 rounded-full border-2 border-[#1e1e1e]" title="Pending"></div>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h4 class="text-lg font-bold text-white truncate">Sarah Jenkins</h4>
+                                <p class="text-sm text-gray-400 truncate">sarah.j@gmail.com</p>
+                                <div class="flex items-center gap-2 mt-1 flex-wrap">
+                                    <span class="text-xs bg-pink-900/50 text-pink-300 px-2 py-0.5 rounded border border-pink-800">Modern Art</span>
+                                    <span class="text-xs text-gray-500"><i class="fab fa-youtube"></i> 5k</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-1 lg:px-8 w-full">
+                            <p class="text-sm text-gray-300 italic line-clamp-2 lg:line-clamp-none">"Professional painter. I want to auction my live painting sessions."</p>
+                            <div class="mt-3 flex flex-wrap gap-4 text-xs">
+                                <a href="#" class="text-blue-400 hover:underline flex items-center"><i class="fas fa-id-card mr-1"></i> View ID</a>
+                                <a href="#" class="text-blue-400 hover:underline flex items-center"><i class="fas fa-link mr-1"></i> Portfolio</a>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 w-full lg:w-auto mt-2 lg:mt-0">
+                            <button class="h-10 w-12 lg:w-10 rounded lg:rounded-full bg-gray-700 hover:bg-red-600 hover:text-white text-gray-400 transition flex items-center justify-center border border-gray-600" title="Reject">
+                                <i class="fas fa-times"></i>
+                            </button>
+                            <button class="flex-1 lg:flex-none bg-[#005f56] hover:bg-[#004d46] text-white px-6 py-2 rounded font-medium shadow-lg transition flex items-center justify-center gap-2">
+                                <i class="fas fa-check"></i> <span class="lg:hidden">Approve Request</span> <span class="hidden lg:inline">Approve</span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobile-overlay');
+            
+            // Toggle translate class
+            if (sidebar.classList.contains('-translate-x-full')) {
+                // Open Sidebar
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+            } else {
+                // Close Sidebar
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
