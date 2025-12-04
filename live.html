@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Live Auction + Live Chat | Sybarite Society</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Sybarite Theme Color */
+        .bg-sybarite { background-color: #005f56; }
+        .text-sybarite { color: #005f56; }
+        
+        /* Custom Font sizing to match image header */
+        .nav-link { font-size: 11px; font-weight: 600; letter-spacing: 0.5px; }
+        
+        /* Scrollbar for chat */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #1e293b; }
+        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 3px; }
+    </style>
+</head>
+
+<body class="flex flex-col min-h-screen bg-[whitesmoke]">
+
+    <header class="bg-sybarite text-white">
+        <div class="max-w-[1400px] mx-auto px-4 h-20 flex items-center justify-between">
+            
+            <div class="w-48">
+                <div class="bg-black p-2 border border-[#d4af37]">
+                    <h1 class="text-[#d4af37] font-bold text-center tracking-widest text-sm leading-tight">SYBARITE SOCIETY</h1>
+                    <p class="text-[#d4af37] text-[8px] text-center tracking-[0.3em] uppercase">Auctions</p>
+                </div>
+            </div>
+
+            <nav class="hidden lg:flex items-center gap-6">
+                <a href="#" class="nav-link hover:text-yellow-400 uppercase transition">Audemars Piguet</a>
+                <a href="#" class="nav-link hover:text-yellow-400 uppercase transition">Bvlgari</a>
+                <a href="#" class="nav-link hover:text-yellow-400 uppercase transition">Cartier</a>
+                <a href="#" class="nav-link hover:text-yellow-400 uppercase transition">Hermes</a>
+                <a href="#" class="nav-link hover:text-yellow-400 uppercase transition">Patek Philippe</a>
+                <a href="#" class="nav-link hover:text-yellow-400 uppercase transition">Richard Mille</a>
+                <a href="#" class="nav-link hover:text-yellow-400 uppercase transition">Rolex</a>
+                <a href="#" class="nav-link hover:text-yellow-400 uppercase text-yellow-400 font-bold border-b border-yellow-400">BIDDING</a>
+            </nav>
+
+            <div class="flex items-center gap-5 text-lg">
+                <button class="hover:text-yellow-400"><i class="fas fa-search"></i></button>
+                <button class="hover:text-yellow-400"><i class="far fa-user"></i></button>
+                
+                <button class="relative hover:text-yellow-400">
+                    <i class="far fa-heart"></i>
+                    <span class="absolute -top-2 -right-2 bg-black text-white text-[9px] font-bold h-4 w-4 rounded-full flex items-center justify-center border border-white">5</span>
+                </button>
+                
+                <button class="relative hover:text-yellow-400">
+                    <i class="fas fa-shopping-basket"></i>
+                    <span class="absolute -top-2 -right-2 bg-black text-white text-[9px] font-bold h-4 w-4 rounded-full flex items-center justify-center border border-white">2</span>
+                </button>
+            </div>
+        </div>
+        
+        <div class="lg:hidden bg-[#004d46] px-4 py-2 flex overflow-x-auto whitespace-nowrap gap-4 no-scrollbar">
+             <a href="#" class="text-xs uppercase font-semibold">Audemars Piguet</a>
+             <a href="#" class="text-xs uppercase font-semibold">Rolex</a>
+             <a href="#" class="text-xs uppercase font-semibold">Bidding</a>
+        </div>
+    </header>
+
+    <main class="flex-grow flex items-center justify-center py-8 px-4">
+        
+        <div class="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-[3fr,2fr] gap-6">
+
+            <div class="space-y-4">
+                
+                <div class="relative bg-black rounded-xl overflow-hidden shadow-xl aspect-video group">
+                    <iframe class="w-full h-full pointer-events-none md:pointer-events-auto"
+                        src="https://www.youtube.com/embed/wDchsz8nmbo?autoplay=1&mute=1&controls=0&rel=0&showinfo=0&modestbranding=1&playsinline=1&loop=1&playlist=wDchsz8nmbo"
+                        frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+                    </iframe>
+                    
+                    <div class="absolute top-4 left-4 flex items-center gap-2 z-10">
+                        <span class="bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full flex items-center gap-2 shadow-sm animate-pulse">
+                            <span class="h-2 w-2 rounded-full bg-white"></span> LIVE
+                        </span>
+                        <span class="bg-black/60 backdrop-blur-sm text-white text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1 border border-white/10">
+                            <i class="fas fa-eye text-[10px]"></i> 2,345
+                        </span>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden">
+                    <div class="flex flex-col sm:flex-row">
+                        <div class="sm:w-1/3 bg-gray-100 p-6 flex items-center justify-center border-r border-gray-100">
+                            <img src="https://cdn-icons-png.flaticon.com/512/2855/2855589.png" class="h-32 w-auto drop-shadow-lg transform hover:scale-110 transition duration-500" alt="Rolex">
+                        </div>
+                        
+                        <div class="sm:w-2/3 p-6 flex flex-col justify-between">
+                            <div>
+                                <div class="flex justify-between items-start mb-2">
+                                    <h2 class="text-2xl font-bold text-gray-800">Rolex Submariner</h2>
+                                    <span class="bg-sybarite text-white text-[10px] px-2 py-1 rounded uppercase font-bold tracking-wider">Lot #1023</span>
+                                </div>
+                                <p class="text-sm text-gray-500 mb-4 line-clamp-2">Vintage 1990s diver watch. Mint condition with original box and papers. Stainless steel finish.</p>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4 mt-2">
+                                <div class="bg-gray-50 p-3 rounded-lg border border-gray-100">
+                                    <p class="text-xs text-gray-400 uppercase font-bold">Current Bid</p>
+                                    <p id="current-bid" class="text-xl font-bold text-sybarite">$72,000</p>
+                                </div>
+                                <div class="bg-gray-50 p-3 rounded-lg border border-gray-100">
+                                    <p class="text-xs text-gray-400 uppercase font-bold">Time Left</p>
+                                    <p id="time-left" class="text-xl font-bold text-red-500 font-mono">--:--</p>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-4 flex items-center gap-3">
+                                <div class="flex-1">
+                                    <p class="text-xs text-gray-400 mb-1">Your Bid: <span id="your-bid" class="font-bold text-gray-800">$73,000</span></p>
+                                </div>
+                                <button id="bid-btn" class="bg-sybarite hover:bg-[#004d46] text-white px-6 py-3 rounded-lg font-bold shadow-lg shadow-teal-900/20 transform active:scale-95 transition w-full sm:w-auto">
+                                    BID NOW
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="h-full max-h-[600px] flex flex-col bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden">
+                <div class="bg-gray-900 text-white px-5 py-4 flex justify-between items-center">
+                    <div>
+                        <h3 class="font-bold text-sm">Live Chat</h3>
+                        <p class="text-xs text-gray-400 flex items-center gap-1"><span class="h-1.5 w-1.5 rounded-full bg-green-500"></span> Online</p>
+                    </div>
+                    <button class="text-gray-400 hover:text-white"><i class="fas fa-ellipsis-v"></i></button>
+                </div>
+
+                <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
+                    </div>
+
+                <form id="chat-form" class="p-3 bg-white border-t border-gray-200 flex gap-2">
+                    <input id="chat-input" type="text" placeholder="Type a message..."
+                        class="flex-1 bg-gray-100 text-gray-800 text-sm rounded-full px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-teal-500 border border-transparent transition">
+                    <button class="bg-sybarite hover:bg-[#004d46] text-white h-10 w-10 rounded-full flex items-center justify-center shadow-md transition">
+                        <i class="fas fa-paper-plane text-xs"></i>
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-sybarite text-white pt-12 pb-6 relative">
+        <div class="max-w-[1400px] mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            
+            <div>
+                <h4 class="font-bold text-sm uppercase mb-6 tracking-wide">Popular Brands</h4>
+                <ul class="space-y-3 text-sm text-gray-300">
+                    <li><a href="#" class="hover:text-white hover:pl-1 transition-all">Audemars Piguet</a></li>
+                    <li><a href="#" class="hover:text-white hover:pl-1 transition-all">Bvlgari</a></li>
+                    <li><a href="#" class="hover:text-white hover:pl-1 transition-all">Cartier</a></li>
+                    <li><a href="#" class="hover:text-white hover:pl-1 transition-all">Hermes</a></li>
+                    <li><a href="#" class="hover:text-white hover:pl-1 transition-all">Patek Philippe</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-bold text-sm uppercase mb-6 tracking-wide">My Account</h4>
+                <ul class="space-y-3 text-sm text-gray-300">
+                    <li><a href="#" class="hover:text-white hover:pl-1 transition-all">Login</a></li>
+                    <li><a href="#" class="hover:text-white hover:pl-1 transition-all">Register</a></li>
+                    <li><a href="#" class="hover:text-white hover:pl-1 transition-all">My Account</a></li>
+                    <li><a href="#" class="hover:text-white hover:pl-1 transition-all">View Cart</a></li>
+                    <li><a href="#" class="hover:text-white hover:pl-1 transition-all">My Wishlist</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-bold text-sm uppercase mb-6 tracking-wide">Quick Links</h4>
+                <ul class="space-y-3 text-sm text-gray-300">
+                    <li><a href="#" class="hover:text-white hover:pl-1 transition-all">About Us</a></li>
+                    <li><a href="#" class="hover:text-white hover:pl-1 transition-all">Latest News</a></li>
+                    <li><a href="#" class="hover:text-white hover:pl-1 transition-all">Contact Us</a></li>
+                    <li><a href="#" class="hover:text-white hover:pl-1 transition-all">Privacy Policy</a></li>
+                    <li><a href="#" class="hover:text-white hover:pl-1 transition-all">Terms & Condition</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-bold text-sm uppercase mb-6 tracking-wide">Contact Us</h4>
+                
+                <div class="mb-5 bg-black p-2 border border-[#d4af37] w-40">
+                    <h2 class="text-[#d4af37] font-bold text-center text-xs tracking-widest">SYBARITE SOCIETY</h2>
+                    <p class="text-[#d4af37] text-[6px] text-center tracking-[0.3em] uppercase">Auctions</p>
+                </div>
+
+                <div class="space-y-4 text-sm text-gray-300">
+                    <div class="flex items-start gap-3">
+                        <i class="fas fa-map-marker-alt mt-1 text-yellow-400"></i>
+                        <span>testing address</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <i class="fas fa-phone-alt text-yellow-400"></i>
+                        <span>9876543210</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <i class="fas fa-envelope text-yellow-400"></i>
+                        <span>testing@gmail.com</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button onclick="window.scrollTo({top: 0, behavior: 'smooth'});" class="absolute bottom-20 right-8 bg-[#004d46] hover:bg-black h-10 w-10 rounded-full flex items-center justify-center shadow-lg transition animate-bounce">
+            <i class="fas fa-chevron-up text-white"></i>
+        </button>
+    </footer>
+
+    <div class="bg-black text-center py-4 border-t border-gray-800">
+        <p class="text-white text-xs tracking-wide">© 2025 Sybarite Society Auctions. All Rights Reserved.</p>
+    </div>
+
+
+    <script>
+        const chatMessages = document.getElementById("chat-messages");
+        const currentBidEl = document.getElementById("current-bid");
+        const timeLeftEl = document.getElementById("time-left");
+        const bidBtn = document.getElementById("bid-btn");
+        let currentBid = 72000;
+        let auctionEnd = new Date().getTime() + (5 * 60 * 1000); // 5 min countdown
+
+        // --------------------------
+        // COUNTDOWN TIMER
+        // --------------------------
+        setInterval(() => {
+            const now = Date.now();
+            const diff = auctionEnd - now;
+
+            if (diff <= 0) {
+                timeLeftEl.innerText = "ENDED";
+                timeLeftEl.classList.remove("text-red-500");
+                timeLeftEl.classList.add("text-gray-500");
+                return;
+            }
+
+            const minutes = Math.floor(diff / 60000);
+            const seconds = Math.floor((diff % 60000) / 1000);
+            timeLeftEl.innerText = `${minutes}:${seconds.toString().padStart(2, "0")}`;
+        }, 1000);
+
+        // --------------------------
+        // BID BUTTON
+        // --------------------------
+        bidBtn.addEventListener("click", () => {
+            currentBid += 1000;
+            currentBidEl.innerText = `$${currentBid.toLocaleString()}`;
+            // Update "Your Bid" too
+            document.getElementById("your-bid").innerText = `$${(currentBid + 1000).toLocaleString()}`;
+            addChatMessage("You", `Bid placed: $${currentBid.toLocaleString()}`, true);
+        });
+
+        // --------------------------
+        // USER MANUAL CHAT
+        // --------------------------
+        document.getElementById("chat-form").addEventListener("submit", (e) => {
+            e.preventDefault();
+            const input = document.getElementById("chat-input");
+            const text = input.value.trim();
+            if (!text) return;
+            addChatMessage("You", text, true);
+            input.value = "";
+        });
+
+        // --------------------------
+        // AUTO CHAT GENERATOR
+        // --------------------------
+        const randomUsers = ["Max", "Ritu", "Ali", "Jessica", "Yash", "Tina", "Leo", "Sam"];
+        const messages = [
+            "What a timepiece! 🔥",
+            "Is the strap original?",
+            "75k is my limit",
+            "Condition looks pristine.",
+            "Can you ship to London?",
+            "Waiting for the last minute..."
+        ];
+
+        function autoChat() {
+            const name = randomUsers[Math.floor(Math.random() * randomUsers.length)];
+            const msg = messages[Math.floor(Math.random() * messages.length)];
+            addChatMessage(name, msg, false);
+        }
+        setInterval(autoChat, 3000); // Slower interval for realism
+
+        function addChatMessage(user, msg, isMe) {
+            const div = document.createElement("div");
+            
+            if (isMe) {
+                div.className = "flex justify-end";
+                div.innerHTML = `
+                    <div class="bg-sybarite text-white px-4 py-2 rounded-l-lg rounded-tr-lg max-w-[80%] text-sm shadow-sm">
+                        <p>${msg}</p>
+                    </div>
+                `;
+            } else {
+                div.className = "flex justify-start";
+                div.innerHTML = `
+                    <div>
+                        <p class="text-[10px] text-gray-500 mb-0.5 ml-1 font-bold">${user}</p>
+                        <div class="bg-white text-gray-800 px-4 py-2 rounded-r-lg rounded-tl-lg max-w-[90%] text-sm shadow-sm border border-gray-100">
+                            <p>${msg}</p>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            chatMessages.appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+    </script>
+
+</body>
+</html>
